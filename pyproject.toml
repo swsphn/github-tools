@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "Helper tools for GitHub"
 authors = ["David Wales <david.wales@swsphn.com.au>"]
 readme = "README.md"
-# packages = [{include = "github_tools"}]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
@@ -16,6 +15,9 @@ rich = "^13.7.0"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=23.12.0"
+
+[tool.poetry.scripts]
+ght = 'github_tools:app'
 
 [build-system]
 requires = ["poetry-core"]

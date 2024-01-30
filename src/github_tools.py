@@ -12,7 +12,7 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.keys import KeyClient
 from azure.keyvault.keys.crypto import CryptographyClient, SignatureAlgorithm
 
-app = typer.Typer(rich_markup_mode="rich", name="pmhc-pipeline", add_completion=False)
+app = typer.Typer(rich_markup_mode="rich", name="ght", add_completion=False)
 
 
 def jwt_encode(msg: bytes):
@@ -144,7 +144,7 @@ def github_app_installation_access_token(
 
 
 @app.command()
-def main(app_id: int, vault_url: str, key_name: str, verbose: bool = False):
+def app_token(app_id: int, vault_url: str, key_name: str, verbose: bool = False):
     """Generate a GitHub app installation token.
 
     Args:
@@ -188,6 +188,15 @@ def main(app_id: int, vault_url: str, key_name: str, verbose: bool = False):
                 print(f"\t{repository['full_name']}")
         print("\nToken:")
     print(app_installation_access_token["token"])
+
+
+# Force app_token to be a sub-command to make it easier to add more
+# sub-commands in future
+# https://typer.tiangolo.com/tutorial/commands/one-or-multiple/
+@app.callback()
+def callback():
+    """Collection of GitHub helper tools
+    """
 
 
 if __name__ == "__main__":
