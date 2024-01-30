@@ -62,7 +62,9 @@ def github_app_installation_id(app_id: int, jwt: str):
     return app_installation_id
 
 
-def github_app_installation_access_token(app_id: int, jwt: str, repositories: list = None, permissions: dict = None) -> dict:
+def github_app_installation_access_token(
+    app_id: int, jwt: str, repositories: list = None, permissions: dict = None
+) -> dict:
     """Generate a GitHub App installation access token for a given App
     id.
 
@@ -142,7 +144,7 @@ def github_app_installation_access_token(app_id: int, jwt: str, repositories: li
 
 
 @app.command()
-def main(app_id: int, vault_url: str, key_name: str):
+def main(app_id: int, vault_url: str, key_name: str, verbose: bool = False):
     """Generate a GitHub app installation token.
 
     Args:
@@ -153,9 +155,7 @@ def main(app_id: int, vault_url: str, key_name: str):
             example-key
     """
     credential = DefaultAzureCredential()
-    key_client = KeyClient(
-        vault_url=vault_url, credential=credential
-    )
+    key_client = KeyClient(vault_url=vault_url, credential=credential)
 
     key = key_client.get_key(key_name)
     crypto_client = CryptographyClient(key, credential)
@@ -175,15 +175,18 @@ def main(app_id: int, vault_url: str, key_name: str):
     jwt = jwt_rsa(payload, crypto_client)
     app_installation_access_token = github_app_installation_access_token(app_id, jwt)
 
-    print("GitHub App Installation Token Generated")
-    print(f"Expires: {app_installation_access_token['expires_at']}")
-    print("\nPermissions:")
-    for k, v in app_installation_access_token["permissions"].items():
-        print(f"\t{k}: {v}")
-    print("\nRepositories:")
-    for repository in app_installation_access_token["repositories"]:
-        print(f"\t{repository['full_name']}")
-    print("\nToken:")
+    if verbose:
+        print("GitHub App Installation Token Generated")
+        print(f"Expires: {app_installation_access_token['expires_at']}")
+        print("\nPermissions:")
+        for k, v in app_installation_access_token["permissions"].items():
+            print(f"\t{k}: {v}")
+
+        if repositories := app_installation_access_token.get("repositories"):
+            print("\nRepositories:")
+            for repository in repositories:
+                print(f"\t{repository['full_name']}")
+        print("\nToken:")
     print(app_installation_access_token["token"])
 
 
