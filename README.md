@@ -19,3 +19,17 @@ pip install git+https://git@github.com/swsphn/github-tools.git
 ```
 
 This should also work with `pipx` or Poetry.
+
+## Usage
+
+Run the following for a list of included sub-commands:
+
+``` sh
+ght --help
+```
+
+You can also get help for specific sub-commands. For example:
+
+``` sh
+ght app-token --help
+```
