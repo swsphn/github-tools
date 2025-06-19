@@ -44,8 +44,21 @@ ght app-token --help
 
 ## Examples
 
-Generate a GitHub App Installation Token using a private key stored in
+Generate a [GitHub App Installation
+Token][github-app-installation-token] using a private key stored in
 Azure Key Vault.
+
+Note: The following steps assume that you have previously [created
+a GitHub App][create-github-app] and that you have saved the GitHub
+App's private key to Azure Key Vault. Follow the instructions linked
+above, but with the following changes:
+
+1. When you create the GitHub App private key, add it to Azure Key
+       Vault (as a _key_, **not** a _secret_!).
+2. **Skip** all the steps after the step _Install your GitHub App on the
+   repositories it needs to act upon_ (step 6 at the time of writing).
+3. Use your GitHub App ID, the Azure Key Vault URL and the Key name to
+   complete the steps below.
 
 ``` sh
 GITHUB_APP_ID=123456
@@ -102,3 +115,6 @@ This project is licensed under the [MIT license](LICENSE).
 Developed by David Wales  
 Digital Health & Data Team  
 South Western Sydney Primary Health Network (SWSPHN)
+
+[github-app-installation-token]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#github-app-installation-access-tokens
+[create-github-app]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#set-up-installation-access-tokens
