@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+"""GitHub Tools – Helper tools for working with GitHub Apps."""
+
 import base64
 import hashlib
 import json
@@ -147,6 +150,9 @@ def github_app_installation_access_token(
 def app_token(app_id: str, vault_url: str, key_name: str, verbose: bool = False):
     """Generate a GitHub app installation token.
 
+    WARNING: Do not expose the generated token. Treat it like a
+    password.
+
     Args:
         app_id: GitHub App ID (or Client ID)
         vault_url: Azure Key Vault URL. e.g.
@@ -195,8 +201,7 @@ def app_token(app_id: str, vault_url: str, key_name: str, verbose: bool = False)
 # https://typer.tiangolo.com/tutorial/commands/one-or-multiple/
 @app.callback()
 def callback():
-    """Collection of GitHub helper tools
-    """
+    """Collection of GitHub helper tools"""
 
 
 if __name__ == "__main__":
