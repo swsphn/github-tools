@@ -48,7 +48,7 @@ access to GitHub repositories and should be handled as securely as
 passwords or SSH keys. Do not share them or expose them in logs.
 
 ## License
-This project is licensed under the MIT license.
+This project is licensed under the [MIT license](LICENSE).
 
 ## Maintainers
 Developed by David Wales
