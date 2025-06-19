@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+
+"""
+GitHub Tools – Helper tools for working with GitHub Apps.
+
+WARNING: Do not expose the generated token. Treat it like a password.
+"""
+
 import base64
 import hashlib
 import json
