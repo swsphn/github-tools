@@ -15,7 +15,10 @@ Included tools:
 Install with the following pip command:
 
 ``` sh
-pip install git+https://git@github.com/swsphn/github-tools.git
+pip install github-tools@git+https://github.com/swsphn/github-tools.git
+# OR with SSH authentication
+# (ensure your ssh-agent is running and has your ssh key added!)
+pip install github-tools@git+ssh://git@github.com/swsphn/github-tools.git
 ```
 
 This should also work with `pipx` or Poetry.
