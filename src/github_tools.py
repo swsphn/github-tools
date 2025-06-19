@@ -144,11 +144,11 @@ def github_app_installation_access_token(
 
 
 @app.command()
-def app_token(app_id: int, vault_url: str, key_name: str, verbose: bool = False):
+def app_token(app_id: str, vault_url: str, key_name: str, verbose: bool = False):
     """Generate a GitHub app installation token.
 
     Args:
-        app_id: ID of GitHub app
+        app_id: GitHub App ID (or Client ID)
         vault_url: Azure Key Vault URL. e.g.
             https://example.vault.azure.net/
         key_name: Name of key in Azure key vault. e.g.
