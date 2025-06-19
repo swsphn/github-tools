@@ -99,6 +99,6 @@ passwords or SSH keys. Do not share them or expose them in logs.
 This project is licensed under the [MIT license](LICENSE).
 
 ## Maintainers
-Developed by David Wales
-Digital Health & Data Team
+Developed by David Wales  
+Digital Health & Data Team  
 South Western Sydney Primary Health Network (SWSPHN)
