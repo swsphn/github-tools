@@ -42,6 +42,67 @@ You can also get help for specific sub-commands. For example:
 ght app-token --help
 ```
 
+## Examples
+
+Generate a [GitHub App Installation
+Token][github-app-installation-token] using a private key stored in
+Azure Key Vault.
+
+Note: The following steps assume that you have previously [created
+a GitHub App][create-github-app] and that you have saved the GitHub
+App's private key to Azure Key Vault. Follow the instructions linked
+above, but with the following changes:
+
+1. When you create the GitHub App private key, add it to Azure Key
+       Vault (as a _key_, **not** a _secret_!).
+2. **Skip** all the steps after the step _Install your GitHub App on the
+   repositories it needs to act upon_ (step 6 at the time of writing).
+3. Use your GitHub App ID, the Azure Key Vault URL and the Key name to
+   complete the steps below.
+
+``` sh
+GITHUB_APP_ID=123456
+KEYVAULT_URL=https://example.vault.azure.net/
+KEYVAULT_KEY=example-key-name
+GITHUB_TOKEN=$(ght app-token $GITHUB_APP_ID $KEYVAULT_URL $KEYVAULT_KEY)
+```
+
+You can use the generated token to authenticate to GitHub, using the
+permissions assigned to the GitHub App as follows:
+
+``` sh
+git clone https://x-access-token:${GITHUB_TOKEN}@github.com/org/example.git
+```
+
+You can also use it to install Python packages from private GitHub
+repositories for which the GitHub app has been granted access as
+follows:
+
+``` sh
+pipx install git+https://x-access-token:${GITHUB_TOKEN}@github.com/org/example.git
+```
+
+However, note that this will not work for private Python packages which
+depend on other private Python packages. In this case, you will need to
+set some additional git config environment variables to ensure that all
+subsequent git processes use the `GITHUB_TOKEN`:
+
+``` sh
+# Assuming GITHUB_TOKEN is already defined as above
+export GITHUB_TOKEN
+export GIT_CONFIG_COUNT=2
+export GIT_CONFIG_KEY_0='credential.https://github.com.username'
+export GIT_CONFIG_VALUE_0=x-access-token
+export GIT_CONFIG_KEY_1='credential.https://github.com.helper'
+export GIT_CONFIG_VALUE_1='!f() { test "$1" = get && echo "password=${GITHUB_TOKEN}"; }; f'
+```
+
+Now, regular git clones and pip install commands should automatically
+use the GITHUB_TOKEN to authenticate to private repositories.
+
+See [this answer on StackOverflow](https://stackoverflow.com/a/78064753)
+for details.
+
 ## Security note
 This tool generates GitHub App installation tokens. These tokens grant
 access to GitHub repositories and should be handled as securely as 
@@ -51,6 +112,9 @@ passwords or SSH keys. Do not share them or expose them in logs.
 This project is licensed under the [MIT license](LICENSE).
 
 ## Maintainers
-Developed by David Wales
-Digital Health & Data Team
+Developed by David Wales  
+Digital Health & Data Team  
 South Western Sydney Primary Health Network (SWSPHN)
+
+[github-app-installation-token]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#github-app-installation-access-tokens
+[create-github-app]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#set-up-installation-access-tokens
