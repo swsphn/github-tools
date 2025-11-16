@@ -166,12 +166,14 @@ def app_token(app_id: str, vault_url: str, key_name: str, verbose: bool = False)
     key = key_client.get_key(key_name)
     crypto_client = CryptographyClient(key, credential)
 
+    # 1 minute in the past, to allow for clock drift
+    now = int(time.time() - 60)
     payload_json = json.dumps(
         {
             # Issued at time
-            "iat": int(time.time() - 60),
+            "iat": now,
             # JWT expiration time (10 minutes maximum)
-            "exp": int(time.time()) + 600,
+            "exp": now + 600,
             # GitHub App's identifier
             "iss": app_id,
         }
